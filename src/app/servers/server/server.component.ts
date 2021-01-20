@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { ServersService } from '../servers.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-server',
@@ -11,7 +11,12 @@ import { ActivatedRoute } from '@angular/router';
 export class ServerComponent implements OnInit {
   server: {id: number, name: string, status: string};
   paramSubscription: Subscription
-  constructor(private serversService: ServersService, private route: ActivatedRoute) { }
+  constructor(private serversService: ServersService, private route: ActivatedRoute,
+  private router: Router) { }
+
+  onEdit() {
+    this.router.navigate(['edit'], {relativeTo: this.route, queryParamsHandling: 'preserve'}); //to which route you navigate relatively
+  }
 
   ngOnInit() {
     const id = +this.route.snapshot.params['id']; //+ converts string to number
